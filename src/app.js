@@ -121,23 +121,24 @@ app.post("/Persuhabit/usuarios", (req, res, next) => {
        correo: req.body.correo,
        pwdu: req.body.pwdu,
        nivel: req.body.nivel,
-       experiencia: req.body.nivel
+       experiencia: req.body.experiencia
    }
 
-     var sql = "INSERT INTO Usuario (nomu, apmu, appu, correo, pwdu, nivel, experiencia) VALUES (?,?,?,?,?,?,?)"
+     var sql = "INSERT INTO Usuario (nomu, apmu, appu, correo, pwdu, nivel, experiencia) VALUES (?,?,?,?,?,?,?);"
      var params =[data.nomu, data.apmu, data.appu, data.correo, data.pwdu, data.nivel, data.experiencia]
 
      db.run(sql, params, function (err, result) {
           if (err){
               res.status(400).json({"error": err.message})
               return;
+          }else{
+            res.json({
+               "message":"success",
+               "data": this.lastID
+            })
           }
-          res.json({
-              "message": "success",
-              "data": "correcto"
-          })
-      });
 
+      });
 });
 ////////////////////////[Actualizar Correo del Usuario]
 app.put("/Persuhabit/usuarios/correo", (req, res, next) => {
