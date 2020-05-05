@@ -121,11 +121,12 @@ app.post("/Persuhabit/usuarios", (req, res, next) => {
        correo: req.body.correo,
        pwdu: req.body.pwdu,
        nivel: req.body.nivel,
-       experiencia: req.body.experiencia
+       experiencia: req.body.experiencia,
+       estadoReg: req.body.estadoReg
    }
 
-     var sql = "INSERT INTO Usuario (nomu, apmu, appu, correo, pwdu, nivel, experiencia) VALUES (?,?,?,?,?,?,?);"
-     var params =[data.nomu, data.apmu, data.appu, data.correo, data.pwdu, data.nivel, data.experiencia]
+     var sql = "INSERT INTO Usuario (nomu, apmu, appu, correo, pwdu, nivel, experiencia, estadoReg) VALUES (?,?,?,?,?,?,?,?);"
+     var params =[data.nomu, data.apmu, data.appu, data.correo, data.pwdu, data.nivel, data.experiencia, data.estadoReg]
 
      db.run(sql, params, function (err, result) {
           if (err){
