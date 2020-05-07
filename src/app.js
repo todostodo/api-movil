@@ -163,7 +163,9 @@ app.post("/Persuhabit/usuario/registro", (req, res, next) => {
         });
 
         if(result){
-            res.json("El usuario ya existe");
+          res.json({
+              "data": "El usuario ya existe"
+          })
             console.log("valor result" , result);
         }
         else{
@@ -204,11 +206,15 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
                 res.end(JSON.stringify(result)) // si la password es correcta, retorna toda la informacion del usuario
             }
             else{
-                res.end(JSON.stringify('Contraseña incorrecta'));
+                res.json({
+                    "data": "Contraseña incorrecta"
+                })
             }
         }
         else{
-           res.json("El usuario no existe!!!!!");
+           res.json({
+               "data": "El usuario no existe!!!!!"
+           })
         }
     });
 
@@ -223,10 +229,14 @@ app.post("/Persuhabit/usuario/correo", (req, res, next) =>{
             console.log('[SQLITE ERROR]', err);
         });
         if(result){
-            res.end(JSON.stringify('El correo existe'));
+            res.json({
+                "data": "El correo existe"
+            })
         }
         else{
-            res.end(JSON.stringify('El correo no existe'));
+          res.json({
+              "data": "El correo no existe"
+          })
         }
     });
 });
@@ -247,7 +257,9 @@ app.put("/Persuhabit/usuario/password", (req, res, next) => {
             console.log('[SQLITE3 ERROR', err);
         });
 
-        res.end(JSON.stringify('Contraseña actualizada'));
+        res.json({
+            "data": "Contraseña actualizada"
+        })
     });
 
 });
