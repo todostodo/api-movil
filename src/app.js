@@ -322,7 +322,6 @@ app.post("/Persuhabit/nino", (req, res, next) => {
        edad: req.body.edad,
        peso: req.body.peso,
        estat: req.body.estat,
-       medi: req.body.medi,
        lineabultra: req.body.lineabultra,
        lineabv: req.body.lineabv,
        leneabf: req.body.leneabf,
@@ -332,8 +331,8 @@ app.post("/Persuhabit/nino", (req, res, next) => {
        esfuerzov: req.body.esfuerzov
    }
 
-     var sql = "INSERT INTO Nino (idusu, genero, nomn, appn, apmn, edad, peso, estat, medi, lineabultra, lineabv, leneabf, totfich, esfuerzoultra, esfuerzof, esfuerzov) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-     var params =[data.idusu, data.genero, data.nomn, data.appn, data.apmn, data.edad, data.peso, data.estat, data.medi, data.lineabultra, data.lineabv, data.leneabf, data.totfich, data.esfuerzoultra, data.esfuerzof, data.esfuerzov]
+     var sql = "INSERT INTO Nino (idusu, genero, nomn, appn, apmn, edad, peso, estat, lineabultra, lineabv, leneabf, totfich, esfuerzoultra, esfuerzof, esfuerzov) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+     var params =[data.idusu, data.genero, data.nomn, data.appn, data.apmn, data.edad, data.peso, data.estat, data.lineabultra, data.lineabv, data.leneabf, data.totfich, data.esfuerzoultra, data.esfuerzof, data.esfuerzov]
 
      db.run(sql, params, function (err, result) {
           if (err){
