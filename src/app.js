@@ -6,7 +6,7 @@ const app = express();
 //Donde se encuentra la configuracion para conectar
 //Con la base de datos.
 var db = require("./conexion.js")
-
+var crypto = require('crypto');
 
 const morgan = require('morgan');
 
@@ -19,6 +19,33 @@ var jsonParser = bodyParser.json()
 app.set('port', process.env.PORT || 3000);
 
 app.use(bodyParser.json());
+
+var getRandomString = function (length){
+    return crypto.randomBytes(Math.ceil(length/2))
+    .toString('hex') // convertir el formato a hexadecimal
+    .slice(0, length); // retorna el numero requerido de los caracteres
+};
+
+var sha512 = function(password, salt){
+    var hash = crypto.createHmac('sha512', salt); // usa sha512
+    hash.update(password);
+    var value = hash.digest('hex');
+    return {
+        salt: salt,
+        passwordHash: value
+    };
+};
+
+function saltHashPassword(userPassword){
+    var salt = getRandomString(16); // Obtiene la cadena aleatoria con 16 caracteres del salt
+    var passwordData = sha512(userPassword, salt);
+    return passwordData;
+}
+
+function checkHashPassword(userPassword, salt){
+    var passwordData = sha512(userPassword, salt);
+    return passwordData;
+}
 
 //-------------------------------------------------------[*******Rutas********]-------------------------------------------------
 
@@ -111,83 +138,118 @@ var params = []
 
   });
 });
+
 ///////////////////////[Insertar un usuario nuevo]
-app.post("/Persuhabit/usuarios", (req, res, next) => {
+app.post("/Persuhabit/usuario/registro", (req, res, next) => {
 
-  var data = {
-       nomu: req.body.nomu,
-       apmu: req.body.apmu,
-       appu: req.body.appu,
-       correo: req.body.correo,
-       pwdu: req.body.pwdu,
-       nivel: req.body.nivel,
-       experiencia: req.body.experiencia,
-       estadoReg: req.body.estadoReg
-   }
+    var plaint_password = req.body.pwdu; // obtener password para enviar parametros
+    var hash_data = saltHashPassword(plaint_password);
+    var password = hash_data.passwordHash; //obtener valor hash
+    var salt = hash_data.salt;
 
-     var sql = "INSERT INTO Usuario (nomu, apmu, appu, correo, pwdu, nivel, experiencia, estadoReg) VALUES (?,?,?,?,?,?,?,?);"
-     var params =[data.nomu, data.apmu, data.appu, data.correo, data.pwdu, data.nivel, data.experiencia, data.estadoReg]
+    var data = {
+        nomu: req.body.nomu,
+        apmu: req.body.apmu,
+        appu: req.body.appu,
+        correo: req.body.correo,
+        nivel: req.body.nivel,
+        experiencia: req.body.experiencia,
+        estadoReg: req.body.estadoReg
+    }
 
-     db.run(sql, params, function (err, result) {
-          if (err){
-              res.status(400).json({"error": err.message})
-              return;
-          }else{
-            res.json({
-               "message":"success",
-               "data": this.lastID
-            })
-          }
+    db.get('SELECT * FROM Usuario WHERE correo = ?', [data.correo], function (err, result){
+        db.on('error', function(err){
+            console.log('[SQLITE3 ERROR]', err);
+        });
 
-      });
+        if(result){
+            res.json("El usuario ya existe");
+            console.log("valor result" , result);
+        }
+        else{
+            db.run('INSERT INTO Usuario (nomu, apmu, appu, correo, pwdu, nivel, experiencia, estadoReg, decrypt) VALUES (?,?,?,?,?,?,?,?,?)',
+            [data.nomu, data.apmu, data.appu, data.correo, password, data.nivel, data.experiencia, data.estadoReg, salt],
+            function (err, result){
+                if(err){
+                    console.log('[SQLITE ERROR]', err);
+                    return;
+                }else{
+                    res.json({
+                        "message": "Se registro correctamente",
+                        "data": this.lastID
+                    })
+                }
+            });
+        }
+    });
 });
-////////////////////////[Actualizar Correo del Usuario]
-app.put("/Persuhabit/usuarios/correo", (req, res, next) => {
 
-  var data = {
-       correo: req.body.correo,
-       id: req.body.id
-   }
+app.post("/Persuhabit/usuario/login", (req, res, next) => {
 
-var sql = "UPDATE Usuario SET correo = ? WHERE idusu = ?"
-var params = [data.correo, data.id]
+    var user_password = req.body.pwdu;
+    var correo = req.body.correo;
 
-  db.run(sql, params, (err, rows) => {
+    db.get('SELECT * FROM Usuario WHERE correo = ?', [correo], function (err, result){
+        db.on('error', function(err){
+            console.log('[SQLITE3 ERROR]', err);
+        });
 
-      if (err) {
-         res.status(400).json({"error":err.message});
-         return;
-      }
-      res.json({
-         "message":"success",
-         "data": "correcto"
-      })
+        if(result){
 
-  });
+            var salt = result.decrypt;
+            var encrypted_password = result.pwdu;
+            var hasher_password = checkHashPassword(user_password, salt).passwordHash;
+
+            if(encrypted_password == hasher_password){
+                res.end(JSON.stringify(result)) // si la password es correcta, retorna toda la informacion del usuario
+            }
+            else{
+                res.end(JSON.stringify('Contraseña incorrecta'));
+            }
+        }
+        else{
+           res.json("El usuario no existe!!!!!");
+        }
+    });
+
 });
+
+app.post("/Persuhabit/usuario/correo", (req, res, next) =>{
+
+    var correo = req.body.correo;
+
+    db.get('SELECT * FROM Usuario WHERE correo = ?', [correo], function (err, result){
+        db.on('error', function(err){
+            console.log('[SQLITE ERROR]', err);
+        });
+        if(result){
+            res.end(JSON.stringify('El correo existe'));
+        }
+        else{
+            res.end(JSON.stringify('El correo no existe'));
+        }
+    });
+});
+
+
 ////////////////////////[Actualizar Contraseña del Usuario]
-app.put("/Persuhabit/usuarios/password", (req, res, next) => {
+app.put("/Persuhabit/usuario/password", (req, res, next) => {
 
-  var data = {
-       pwdu: req.body.pwdu,
-       id: req.body.id
-   }
+    var re_password = req.body.pwdu;
+    var has_data = saltHashPassword(re_password);
+    var password = has_data.passwordHash;
+    var salt = has_data.salt;
 
-var sql = "UPDATE Usuario SET pwdu = ? WHERE idusu = ?"
-var params = [data.pwdu, data.id]
+    var id_usuario = req.body.idusu;
 
-  db.run(sql, params, (err, rows) => {
+    db.run('UPDATE Usuario SET pwdu = ?, decrypt = ? WHERE idusu = ?', [password, salt, id_usuario], function (err, result){
+        db.on('error', function(err){
+            console.log('[SQLITE3 ERROR', err);
+        });
 
-      if (err) {
-         res.status(400).json({"error":err.message});
-         return;
-      }
-      res.json({
-         "message":"success",
-         "data": "correcto"
-      })
+        res.end(JSON.stringify('Contraseña actualizada'));
+    });
 
-  });
 });
 
 
