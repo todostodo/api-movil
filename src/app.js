@@ -340,8 +340,8 @@ app.post("/Persuhabit/nino", (req, res, next) => {
               return;
           }
           res.json({
-              "message": "success",
-              "data": "correcto"
+              "message": "Se registro correctamente",
+              "data": this.lastID
           })
       });
 
@@ -737,12 +737,11 @@ app.post("/Persuhabit/GustoVerdura", (req, res, next) => {
        siGustaV: req.body.siGustaV,
        noGustaV: req.body.noGustaV,
        conoscoV: req.body.conoscoV,
-       idNino: req.body.idNino,
-       idusu: req.body.idusu
+       idNino: req.body.idNino
    }
 
-     var sql = "INSERT INTO GustoVerdura (nombreV, siGustaV, noGustaV, conoscoV, idNino, idusu) VALUES (?,?,?,?,?,?)"
-     var params =[data.nombreV, data.siGustaV, data.noGustaV, data.conoscoV, data.idNino, data.idusu]
+     var sql = "INSERT INTO GustoVerdura (nombreV, siGustaV, noGustaV, conoscoV, idNino) VALUES (?,?,?,?,?)"
+     var params =[data.nombreV, data.siGustaV, data.noGustaV, data.conoscoV, data.idNino]
 
      db.run(sql, params, function (err, result) {
           if (err){
@@ -812,12 +811,11 @@ app.post("/Persuhabit/GustoFrutas", (req, res, next) => {
        nombreF: req.body.nombreF,
        siGustaF: req.body.siGustaF,
        noGustaF: req.body.noGustaF,
-       conoscoF: req.body.conoscoF,
-       idusu: req.body.idusu
+       conoscoF: req.body.conoscoF
    }
 
-     var sql = "INSERT INTO GustoFrutas (idNino, nombreF, siGustaF, noGustaF, conoscoF, idusu) VALUES (?,?,?,?,?,?)"
-     var params =[data.idNino, data.nombreF, data.siGustaF, data.noGustaF, data.conoscoF, data.idusu]
+     var sql = "INSERT INTO GustoFrutas (idNino, nombreF, siGustaF, noGustaF, conoscoF) VALUES (?,?,?,?,?)"
+     var params =[data.idNino, data.nombreF, data.siGustaF, data.noGustaF, data.conoscoF]
 
      db.run(sql, params, function (err, result) {
           if (err){
