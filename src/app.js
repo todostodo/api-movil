@@ -85,8 +85,8 @@ app.post("/Persuhabit/recompensas", (req, res, next) => {
               return;
           }
           res.json({
-              "message": "success",
-              "data": "correcto"
+              "message": "Se registro correctamente",
+              "data": this.lastID
           })
       });
 });
