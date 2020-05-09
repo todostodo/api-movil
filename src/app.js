@@ -149,8 +149,8 @@ app.post("/Persuhabit/usuario/registro", (req, res, next) => {
 
     var data = {
         nomu: req.body.nomu,
-        apmu: req.body.apmu,
         appu: req.body.appu,
+        apmu: req.body.apmu,
         correo: req.body.correo,
         nivel: req.body.nivel,
         experiencia: req.body.experiencia,
@@ -169,8 +169,8 @@ app.post("/Persuhabit/usuario/registro", (req, res, next) => {
             console.log("valor result" , result);
         }
         else{
-            db.run('INSERT INTO Usuario (nomu, apmu, appu, correo, pwdu, nivel, experiencia, estadoReg, decrypt) VALUES (?,?,?,?,?,?,?,?,?)',
-            [data.nomu, data.apmu, data.appu, data.correo, password, data.nivel, data.experiencia, data.estadoReg, salt],
+            db.run('INSERT INTO Usuario (nomu, appu, apmu, correo, pwdu, nivel, experiencia, estadoReg, decrypt) VALUES (?,?,?,?,?,?,?,?,?)',
+            [data.nomu, data.appu, data.apmu, data.correo, password, data.nivel, data.experiencia, data.estadoReg, salt],
             function (err, result){
                 if(err){
                     console.log('[SQLITE ERROR]', err);
