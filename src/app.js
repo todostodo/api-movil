@@ -49,6 +49,22 @@ function checkHashPassword(userPassword, salt){
 
 //-------------------------------------------------------[*******Rutas********]-------------------------------------------------
 
+app.put("/Persuhabit/usuario/estado", (req, res, next) =>{
+
+    var id_usuario = req.body.idusu;
+
+    db.run("UPDATE Usuario SET estadoReg = ? WHERE idusu = ? ", [1, id_usuario], function(err, result){
+        db.on('error', function(err){
+            console.log('[SQLITE ERROR]', err);
+        });
+
+        res.json({
+            "data": "success"
+        })
+
+    });
+});
+
 //////////////////////////////////////////[*********Ruras para el manejo de la tabla Recompensas**********]
 app.get("/Persuhabit/recompensas", (req, res, next) => {
 
