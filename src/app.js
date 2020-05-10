@@ -1241,6 +1241,188 @@ app.post("/Persuhabit/tutor/eliminar", (req, res, next) => {
 ////////////////////////////////////////[Fin de rutas de Tutor]
 
 
+////////////////////////////////////////[*************Inician rutas de la tabla TiempoAplicacion**************]
+////////////////////[Consulta general de TiempoAplicacion]
+app.get("/Persuhabit/tiempoaplicacion", (req, res, next) => {
+
+var sql = "SELECT * FROM TiempoAplicacion"
+var params = []
+
+  db.all(sql, params, (err, rows) => {
+
+      if (err) {
+         res.status(400).json({"error":err.message});
+         return;
+      }
+      res.json({
+         "message":"success",
+         "data":rows
+      })
+  });
+});
+///////////////////////[Insertar TiempoAplicacion nuevo]
+app.post("/Persuhabit/tiempoaplicacion", (req, res, next) => {
+
+  var data = {
+       idusu: req.body.idusu,
+       duracion: req.body.duracion
+   }
+
+     var sql = "INSERT INTO Tutor (idusu, duracion) VALUES (?,?)"
+     var params =[data.idusu, data.duracion]
+
+     db.run(sql, params, function (err, result) {
+          if (err){
+              res.status(400).json({"error": err.message})
+              return;
+          }
+          res.json({
+              "message": "success",
+              "data": "correcto"
+          })
+      });
+
+});
+////////////////////////////////////////[Fin de rutas de TiempoAplicacion]
+
+
+
+////////////////////////////////////////[*************Inician rutas de la tabla GestoTerrible**************]
+////////////////////[Consulta general de GestoTerrible]
+app.get("/Persuhabit/GestoTerrible", (req, res, next) => {
+
+var sql = "SELECT * FROM GestoTerrible"
+var params = []
+
+  db.all(sql, params, (err, rows) => {
+
+      if (err) {
+         res.status(400).json({"error":err.message});
+         return;
+      }
+      res.json({
+         "message":"success",
+         "data":rows
+      })
+  });
+});
+///////////////////////[Insertar GestoTerrible nuevo]
+app.post("/Persuhabit/GestoTerrible", (req, res, next) => {
+
+  var data = {
+       idNino: req.body.idNino,
+       idalimento: req.body.idalimento
+   }
+
+     var sql = "INSERT INTO GestoTerrible (idNino, idalimento) VALUES (?,?)"
+     var params =[data.idNino, data.idalimento]
+
+     db.run(sql, params, function (err, result) {
+          if (err){
+              res.status(400).json({"error": err.message})
+              return;
+          }
+          res.json({
+              "message": "success",
+              "data": "correcto"
+          })
+      });
+
+});
+////////////////////////////////////////[Fin de rutas de GestoTerrible]
+
+
+
+////////////////////////////////////////[*************Inician rutas de la tabla GestoBien**************]
+////////////////////[Consulta general de GestoBien]
+app.get("/Persuhabit/GestoBien", (req, res, next) => {
+
+var sql = "SELECT * FROM GestoBien"
+var params = []
+
+  db.all(sql, params, (err, rows) => {
+
+      if (err) {
+         res.status(400).json({"error":err.message});
+         return;
+      }
+      res.json({
+         "message":"success",
+         "data":rows
+      })
+  });
+});
+///////////////////////[Insertar GestoBien nuevo]
+app.post("/Persuhabit/GestoBien", (req, res, next) => {
+
+  var data = {
+       idNino: req.body.idNino,
+       idalimento: req.body.idalimento
+   }
+
+     var sql = "INSERT INTO GestoBien (idNino, idalimento) VALUES (?,?)"
+     var params =[data.idNino, data.idalimento]
+
+     db.run(sql, params, function (err, result) {
+          if (err){
+              res.status(400).json({"error": err.message})
+              return;
+          }
+          res.json({
+              "message": "success",
+              "data": "correcto"
+          })
+      });
+
+});
+////////////////////////////////////////[Fin de rutas de GestoBien]
+
+
+
+////////////////////////////////////////[*************Inician rutas de la tabla GestoGenial**************]
+////////////////////[Consulta general de GestoGenial]
+app.get("/Persuhabit/GestoGenial", (req, res, next) => {
+
+var sql = "SELECT * FROM GestoGenial"
+var params = []
+
+  db.all(sql, params, (err, rows) => {
+
+      if (err) {
+         res.status(400).json({"error":err.message});
+         return;
+      }
+      res.json({
+         "message":"success",
+         "data":rows
+      })
+  });
+});
+///////////////////////[Insertar GestoGenial nuevo]
+app.post("/Persuhabit/GestoGenial", (req, res, next) => {
+
+  var data = {
+       idNino: req.body.idNino,
+       idalimento: req.body.idalimento
+   }
+
+     var sql = "INSERT INTO GestoGenial (idNino, idalimento) VALUES (?,?)"
+     var params =[data.idNino, data.idalimento]
+
+     db.run(sql, params, function (err, result) {
+          if (err){
+              res.status(400).json({"error": err.message})
+              return;
+          }
+          res.json({
+              "message": "success",
+              "data": "correcto"
+          })
+      });
+
+});
+////////////////////////////////////////[Fin de rutas de GestoGenial]
+
 
 //---------------------------------------------------------[*********END Rutas*********]----------------------------------
 
