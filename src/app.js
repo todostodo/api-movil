@@ -219,7 +219,7 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
             var hasher_password = checkHashPassword(user_password, salt).passwordHash;
 
             if(encrypted_password == hasher_password){
-                res.end(JSON.stringify(result)) // si la password es correcta, retorna toda la informacion del usuario
+              //res.end(JSON.stringify(result)) // si la password es correcta, retorna toda la informacion del usuario
                 res.json({
                     "data": "success"
                 })
@@ -231,9 +231,10 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
             }
         }
         else{
-           res.json({
-               "data": "FailExiste"
-           })
+          res.json({
+              "message": "success",
+              "data": this.lastID
+          })
         }
     });
 
