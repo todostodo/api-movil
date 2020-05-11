@@ -180,7 +180,7 @@ app.post("/Persuhabit/usuario/registro", (req, res, next) => {
 
         if(result){
           res.json({
-              "data": "El usuario ya existe"
+              "data": "Fail"
           })
             console.log("valor result" , result);
         }
@@ -193,7 +193,7 @@ app.post("/Persuhabit/usuario/registro", (req, res, next) => {
                     return;
                 }else{
                     res.json({
-                        "message": "Se registro correctamente",
+                        "message": "success",
                         "data": this.lastID
                     })
                 }
@@ -220,16 +220,19 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
 
             if(encrypted_password == hasher_password){
                 res.end(JSON.stringify(result)) // si la password es correcta, retorna toda la informacion del usuario
+                res.json({
+                    "data": "success"
+                })
             }
             else{
                 res.json({
-                    "data": "Contraseña incorrecta"
+                    "data": "Fail"
                 })
             }
         }
         else{
            res.json({
-               "data": "El usuario no existe!!!!!"
+               "data": "FailExiste"
            })
         }
     });
@@ -274,7 +277,27 @@ app.put("/Persuhabit/usuario/password", (req, res, next) => {
         });
 
         res.json({
-            "data": "Contraseña actualizada"
+            "data": "success"
+        })
+    });
+
+});
+
+////////////////////////[Actualizar correo del Usuario]
+app.put("/Persuhabit/usuario/correo", (req, res, next) => {
+
+  var data = {
+      correo: req.body.correo,
+      id_usuario: req.body.id_usuario
+  }
+
+    db.run('UPDATE Usuario SET correo = ? WHERE idusu = ?', [data.correo, data.id_usuario], function (err, result){
+        db.on('error', function(err){
+            console.log('[SQLITE3 ERROR', err);
+        });
+
+        res.json({
+            "data": "success"
         })
     });
 
