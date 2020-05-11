@@ -220,9 +220,10 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
 
             if(encrypted_password == hasher_password){
               //res.end(JSON.stringify(result)) // si la password es correcta, retorna toda la informacion del usuario
-                res.json({
-                    "data": "success"
-                })
+              res.json({
+                  "message": "success",
+                  "data": this.lastID
+              })
             }
             else{
                 res.json({
@@ -232,8 +233,7 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
         }
         else{
           res.json({
-              "message": "success",
-              "data": this.lastID
+              "data": "Fail"
           })
         }
     });
