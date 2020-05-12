@@ -227,12 +227,14 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
             }
             else{
                 res.json({
+                    "message": "Fail",
                     "data": "Fail"
                 })
             }
         }
         else{
           res.json({
+              "message": "Fail",
               "data": "Fail"
           })
         }
