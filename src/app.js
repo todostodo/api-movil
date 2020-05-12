@@ -1292,7 +1292,7 @@ app.post("/Persuhabit/tiempoaplicacion", (req, res, next) => {
        duracion: req.body.duracion
    }
 
-     var sql = "INSERT INTO Tutor (idusu, duracion) VALUES (?,?)"
+     var sql = "INSERT INTO TiempoAplicacion (idusu, duracion) VALUES (?,?)"
      var params =[data.idusu, data.duracion]
 
      db.run(sql, params, function (err, result) {
