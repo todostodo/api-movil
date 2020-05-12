@@ -222,7 +222,7 @@ app.post("/Persuhabit/usuario/login", (req, res, next) => {
               //res.end(JSON.stringify(result)) // si la password es correcta, retorna toda la informacion del usuario
               res.json({
                   "message": "success",
-                  "data": this.lastID
+                  "data": result.idusu
               })
             }
             else{
