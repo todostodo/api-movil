@@ -291,7 +291,7 @@ app.put("/Persuhabit/usuario/correo", (req, res, next) => {
 
   var data = {
       correo: req.body.correo,
-      id_usuario: req.body.id_usuario
+      id_usuario: req.body.idusu
   }
 
     db.run('UPDATE Usuario SET correo = ? WHERE idusu = ?', [data.correo, data.id_usuario], function (err, result){
