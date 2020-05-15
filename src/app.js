@@ -252,7 +252,7 @@ app.post("/Persuhabit/usuario/correo", (req, res, next) =>{
         });
         if(result){
             res.json({
-                "data": "success"
+                "data": "success",
                 "data": result.idusu
             })
         }
