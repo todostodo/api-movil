@@ -258,7 +258,7 @@ app.post("/Persuhabit/usuario/correo", (req, res, next) =>{
         }
         else{
           res.json({
-              "data": "Fail"
+              "message": "Fail"
           })
         }
     });
