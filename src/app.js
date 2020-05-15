@@ -252,12 +252,13 @@ app.post("/Persuhabit/usuario/correo", (req, res, next) =>{
         });
         if(result){
             res.json({
-                "data": "El correo existe"
+                "data": "success"
+                "data": result.idusu
             })
         }
         else{
           res.json({
-              "data": "El correo no existe"
+              "data": "Fail"
           })
         }
     });
@@ -302,7 +303,7 @@ app.put("/Persuhabit/usuario/correo", (req, res, next) => {
         res.json({
             "data": "success"
         })
-    });
+    });3
 
 });
 
