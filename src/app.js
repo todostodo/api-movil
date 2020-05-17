@@ -1451,6 +1451,52 @@ app.post("/Persuhabit/GestoGenial", (req, res, next) => {
 ////////////////////////////////////////[Fin de rutas de GestoGenial]
 
 
+
+////////////////////////////////////////[*************Inician rutas de la tabla VioNotificacion**************]
+////////////////////[Consulta general de VioNotificacion]
+app.get("/Persuhabit/VioNotificacion", (req, res, next) => {
+
+var sql = "SELECT * FROM VioNotificacion"
+var params = []
+
+  db.all(sql, params, (err, rows) => {
+
+      if (err) {
+         res.status(400).json({"error":err.message});
+         return;
+      }
+      res.json({
+         "message":"success",
+         "data":rows
+      })
+  });
+});
+///////////////////////[Insertar VioNotificacion nuevo]
+app.post("/Persuhabit/VioNotificacion", (req, res, next) => {
+
+  var data = {
+       idusu: req.body.idusu
+   }
+
+     var sql = "INSERT INTO VioNotificacion (idusu) VALUES (?)"
+     var params =[data.idusu]
+
+     db.run(sql, params, function (err, result) {
+          if (err){
+              res.status(400).json({"error": err.message})
+              return;
+          }
+          res.json({
+              "message": "success",
+              "data": "correcto"
+          })
+      });
+
+});
+////////////////////////////////////////[Fin de rutas de VioNotificacion]
+
+
+
 //---------------------------------------------------------[*********END Rutas*********]----------------------------------
 
 app.listen(app.get('port'), function () {
